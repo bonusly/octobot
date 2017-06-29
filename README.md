@@ -15,10 +15,13 @@ dyno on Heroku.
 
 ### Configuration
 
-The following environment variables are necessary to run octobot:
+The following environment variables are necessary to run octobot
 (if you have an octobot running on Heroku you can find these by running `heroku config`)
 
-`HUBOT_SLACK_TOKEN` you can find this on Slack under Hubot confiuration
+`HUBOT_SLACK_TOKEN` you can find this on Slack under Hubot configuration
+
 `HUBOT_GITHUB_TOKEN` you'll need to generate one of these through Github
+
 `HUBOT_GITHUB_REPO` the repo you want octobot to check
+
 `HUBOT_GITHUB_API` base Github API URL
