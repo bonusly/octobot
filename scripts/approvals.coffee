@@ -1,11 +1,11 @@
 # Description:
 #   Show pull requests that need approval
 # Commands:
-#   hubot !! -- Shows all pull requests awaiting approval.
+#   hubot thumbs -- Shows all pull requests awaiting approval.
 _  = require("underscore")
 ta = require("time-ago")()
 
-ASK_REGEX = /!!\s*/i
+ASK_REGEX = /thumbs*/i
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
