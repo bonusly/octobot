@@ -27,7 +27,7 @@ module.exports = (robot) ->
               github.get "#{pull.url}/reviews", (reviews) ->
                 approvedCount = _.filter(reviews, (review) ->
                                   review.state == 'APPROVED').length
-                approvalsNeeded = (2 - approvedCount)
+                approvalsNeeded = Math.max((2 - approvedCount), 0)
 
                 if approvalsNeeded
                   requestedReviewers = _.map(pull.requested_reviewers, (reviewer) ->
