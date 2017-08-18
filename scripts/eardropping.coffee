@@ -85,4 +85,4 @@ module.exports = (robot) ->
 
     for task in tasksToRun
       if (robot.name != msg.message.user.name && !(new RegExp("^#{robot.name}", "i").test(robotHeard)))
-        robot.receive new TextMessage(msg.message.user, "#{robot.name}: #{task.task}")
+        robot.receive new TextMessage(msg.message.user, "@#{robot.name} #{task.task}")
