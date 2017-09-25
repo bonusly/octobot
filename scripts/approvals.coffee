@@ -21,7 +21,7 @@ module.exports = (robot) ->
         _.each(pulls, (pull) ->
           github.get "#{pull.issue_url}", (issue) ->
             notReadyForReview = _.any(issue.labels, (label) ->
-              label.name.includes('NOT READY'))
+              label.name.includes('not-ready-for-review'))
 
             unless notReadyForReview
               github.get "#{pull.url}/reviews", (reviews) ->
