@@ -35,13 +35,14 @@ module.exports = (robot) ->
 
                 github.get "#{pull.url}", (pull) ->
                   size = pull.additions + pull.deletions
+                  printSize = if size > 800 then "#{size} ಠ_ಠ" else size
 
                   if approvalsNeeded
                     requestedReviewers = _.map(pull.requested_reviewers, (reviewer) ->
                       reviewer.login).join(', ')
                     baseMessage = """
                       *<#{pull.html_url}|#{pull.title}> (##{pull.number})*
-                      \nSubmitted by #{pull.user.login} _#{ta.ago(pull.created_at)}_ size: #{size}
+                      \nSubmitted by #{pull.user.login} _#{ta.ago(pull.created_at)}_ size: #{printSize}
                       \nNeeds #{approvalsNeeded} more
                     """
                     requestMessage = "\nReview requested from #{requestedReviewers}"
