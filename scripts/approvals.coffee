@@ -18,29 +18,38 @@ module.exports = (robot) ->
 
     github.get "#{base_url}/repos/#{repo}/pulls", query_params, (pulls) ->
       if pulls.length
+        notReadyCount = 0
+        approvedCount = 0
         _.each(pulls, (pull) ->
           github.get "#{pull.issue_url}", (issue) ->
             notReadyForReview = _.any(issue.labels, (label) ->
               label.name.includes('not-ready-for-review'))
 
+            notReadyCount += 1 if notReadyForReview
+
             unless notReadyForReview
               github.get "#{pull.url}/reviews", (reviews) ->
-                approvedCount = _.filter(reviews, (review) ->
+                approvalCount = _.filter(reviews, (review) ->
                                   review.state == 'APPROVED').length
-                approvalsNeeded = Math.max((2 - approvedCount), 0)
+                approvalsNeeded = Math.max((2 - approvalCount), 0)
 
-                if approvalsNeeded
-                  requestedReviewers = _.map(pull.requested_reviewers, (reviewer) ->
-                    reviewer.login).join(', ')
-                  size = pull.additions - pull.deletions
-                  baseMessage = """
-                    *<#{pull.html_url}|#{pull.title}> (##{pull.number})*
-                    \nSubmitted by #{pull.user.login} _#{ta.ago(pull.created_at)}_ size: #{size}
-                    \nNeeds #{approvalsNeeded} more
-                  """
-                  requestMessage = "\nReview requested from #{requestedReviewers}"
-                  message = if requestedReviewers then baseMessage.concat(requestMessage) else baseMessage
-                  msg.send message
+                github.get "#{pull.url}", (pull) ->
+                  size = pull.additions + pull.deletions
+
+                  if approvalsNeeded
+                    requestedReviewers = _.map(pull.requested_reviewers, (reviewer) ->
+                      reviewer.login).join(', ')
+                    baseMessage = """
+                      *<#{pull.html_url}|#{pull.title}> (##{pull.number})*
+                      \nSubmitted by #{pull.user.login} _#{ta.ago(pull.created_at)}_ size: #{size}
+                      \nNeeds #{approvalsNeeded} more
+                    """
+                    requestMessage = "\nReview requested from #{requestedReviewers}"
+                    message = if requestedReviewers then baseMessage.concat(requestMessage) else baseMessage
+                    msg.send message
+                  else
+                    approvedCount += 1
+                    msg.send "No pull requests need review! :tada:" if (notReadyCount + approvedCount) == pulls.length
         )
       else
-        msg.send "No pull requests need to be reviewed! :tada:"
+        msg.send "No pull requests open! :tada:"
