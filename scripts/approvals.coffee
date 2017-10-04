@@ -41,7 +41,7 @@ module.exports = (robot) ->
                     requestedReviewers = _.map(pull.requested_reviewers, (reviewer) ->
                       reviewer.login).join(', ')
                     baseMessage = """
-                      *<#{pull.html_url}|#{pull.title}> (size: #{printSize})*
+                      *<#{pull.html_url}|#{pull.title}> Size: #{printSize}*
                       \nSubmitted by #{pull.user.login} _#{ta.ago(pull.created_at)}_
                       \nNeeds #{approvalsNeeded} more
                     """
