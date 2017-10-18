@@ -22,7 +22,7 @@ module.exports = (robot) ->
         message = "Unassigned #{labels} issues:\n"
         _.each(issues, (issue) ->
           if issue.assignees.length == 0
-            message = message + "#{title}: https://github.com/bonusly/special_sauce/issues/#{issue.number}\n"
+            message = message + "#{issue.title}: https://github.com/bonusly/special_sauce/issues/#{issue.number}\n"
         )
         msg.send(message)
       else
