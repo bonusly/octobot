@@ -1,26 +1,29 @@
 # Description:
-#   Show pull requests that need approval
+#   Show issues with given label
 # Commands:
-#   hubot criticals -- Shows all critical issues.
+#   hubot labeled critical -- Shows all critical issues.
 _  = require("underscore")
 ta = require("time-ago")()
 
-ASK_REGEX = /criticals*/i
+ASK_REGEX = /labeled (.*)/i
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
 
   robot.respond ASK_REGEX, (msg) ->
-    query_params = state: "open", sort: "created", labels: "critical"
-    query_params.per_page=100
+    labels = msg.match[1].trim()
+    query_params = state: "open", sort: "created", labels: labels
+    query_params.per_page = 100
     base_url = process.env.HUBOT_GITHUB_API
     repo = process.env.HUBOT_GITHUB_REPO
 
     github.get "#{base_url}/repos/#{repo}/issues", query_params, (issues) ->
       if issues.length
-        message = "Critial Issues:\n"
+        message = "Unassgined #{labels} issues:\n"
         _.each(issues, (issue) ->
-          message += "#{issue.url}\n"
-        msg.send message
+          if issue.assignees.length == 0
+            message = message + "https://github.com/bonusly/special_sauce/issues/#{issue.number}\n"
+        )
+        msg.send(message)
       else
-        msg.send "No critical issues! :tada:"
+        msg.send("No #{labels} issues! :tada:")
