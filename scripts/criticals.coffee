@@ -19,10 +19,10 @@ module.exports = (robot) ->
 
     github.get "#{base_url}/repos/#{repo}/issues", query_params, (issues) ->
       if issues.length
-        message = "Unassigned #{labels} issues:\n"
+        message = "*Unassigned #{labels} issues:*\n"
         _.each(issues, (issue) ->
           if issue.assignees.length == 0
-            message = message + "#{issue.title}: https://github.com/bonusly/special_sauce/issues/#{issue.number}\n"
+            message = message + "<https://github.com/bonusly/special_sauce/issues/#{issue.number}|#{issue.title}>\n"
         )
         msg.send(message)
       else
