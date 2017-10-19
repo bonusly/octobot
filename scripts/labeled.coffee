@@ -3,7 +3,6 @@
 # Commands:
 #   hubot labeled critical -- Shows all critical issues.
 _  = require("underscore")
-ta = require("time-ago")()
 
 ASK_REGEX = /labeled (.*)/i
 
