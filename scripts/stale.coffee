@@ -11,7 +11,7 @@ module.exports = (robot) ->
   github = require("githubot")(robot)
 
   robot.respond ASK_REGEX, (msg) ->
-    query_params = state: "open", sort: "created", labels: 'prioritized'
+    query_params = state: "open", sort: "created"
     query_params.per_page = 100
     base_url = process.env.HUBOT_GITHUB_API
     repo = process.env.HUBOT_GITHUB_REPO
