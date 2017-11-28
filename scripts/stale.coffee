@@ -22,7 +22,7 @@ module.exports = (robot) ->
         date.setMonth(date.getMonth() - 1)
         message = "*Prioritized issues older than one month:*\n"
         _.each(issues, (issue) ->
-          if Date.parse(issue.created_at) < Date.parse(date) and issue.assignees.length == 0
+          if Date.parse(issue.created_at) < Date.parse(date) and issue.assignees.length == 0 and !issue.pull_request
             message = message + "<https://github.com/bonusly/special_sauce/issues/#{issue.number}|#{issue.title}> (created #{ta.ago(issue.created_at)})\n"
         )
         msg.send(message)
