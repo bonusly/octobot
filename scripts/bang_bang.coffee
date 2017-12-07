@@ -4,6 +4,8 @@
 # Commands:
 #   hubot !! - Repeat the last command directed at hubot
 
+TextMessage = require('hubot').TextMessage
+
 module.exports = (robot) ->
   robot.respond /(.+)/i, (msg) ->
     store msg
@@ -12,9 +14,7 @@ module.exports = (robot) ->
 
     if exports.last_command?
       msg.send exports.last_command
-      msg['message']['text'] = "#{exports.last_command}"
-      robot.receive(msg['message'])
-      msg['message']['done'] = true
+      robot.receive(new TextMessage(msg.message.user, "@#{robot.name} #{exports.last_command}"))
     else
       msg.send "i don't remember hearing anything."
 
