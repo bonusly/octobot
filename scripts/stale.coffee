@@ -21,10 +21,16 @@ module.exports = (robot) ->
         date = new Date()
         date.setMonth(date.getMonth() - 1)
         message = "*Prioritized issues older than one month:*\n"
-        _.each(issues, (issue) ->
-          if Date.parse(issue.created_at) < Date.parse(date) and issue.assignees.length == 0 and !issue.pull_request
-            message = message + "<https://github.com/bonusly/special_sauce/issues/#{issue.number}|#{issue.title}> (created #{ta.ago(issue.created_at)})\n"
+        staleIssues = _.filter(issues, (issue) ->
+          Date.parse(issue.created_at) < Date.parse(date) and issue.assignees.length == 0 and !issue.pull_request
         )
-        msg.send(message)
+
+        if staleIssues.length
+          _.each(staleIssues, (issue) ->
+            message = message + "<https://github.com/bonusly/special_sauce/issues/#{issue.number}|#{issue.title}> (created #{ta.ago(issue.created_at)})\n"
+          )
+          msg.send(message)
+        else
+          msg.send("No stale issues! :tada:")
       else
-        msg.send("No stale issues! :tada:")
+        msg.send("No issues! :tada:")
