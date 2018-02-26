@@ -35,7 +35,7 @@ module.exports = (robot) ->
 
                 github.get "#{pull.url}", (pull) ->
                   size = pull.additions
-                  printSize = if size > 2000 then "#{size} (╯°□°)╯︵ ┻━┻" else if size > 500 then "#{size} ಠ_ಠ" else size
+                  printSize = if size > 10000 then '╭∩╮(-_-)╭∩╮' else if size > 2000 then "#{size} (╯°□°)╯︵ ┻━┻" else if size > 500 then "#{size} ಠ_ಠ" else size
 
                   if approvalsNeeded
                     requestedReviewers = _.map(pull.requested_reviewers, (reviewer) ->
