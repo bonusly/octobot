@@ -20,7 +20,8 @@ module.exports = (robot) ->
       if issues.length
         message = "*#{labels} issues:*\n"
         _.each(issues, (issue) ->
-          message = message + "<https://github.com/bonusly/special_sauce/issues/#{issue.number}|#{issue.title}>\n"
+          assignees = _.map(issue.assignees, (assignee) -> assignee['login'])
+          message = message + "<https://github.com/bonusly/special_sauce/issues/#{issue.number}|#{issue.title}> (assigned to #{assignees}\n"
         )
         msg.send(message)
       else
