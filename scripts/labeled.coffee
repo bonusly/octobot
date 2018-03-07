@@ -18,15 +18,10 @@ module.exports = (robot) ->
 
     github.get "#{base_url}/repos/#{repo}/issues", query_params, (issues) ->
       if issues.length
-        message = "*Unassigned #{labels} issues:*\n"
-        unassignedIssues = _.filter(issues, (issue) ->
-          issue.assignees.length == 0)
-        if unassignedIssues.length
-          _.each(unassignedIssues, (issue) ->
-            message = message + "<https://github.com/bonusly/special_sauce/issues/#{issue.number}|#{issue.title}>\n"
-          )
-          msg.send(message)
-        else
-          msg.send("No #{labels} issues! :tada:")
+        message = "*#{labels} issues:*\n"
+        _.each(unassignedIssues, (issue) ->
+          message = message + "<https://github.com/bonusly/special_sauce/issues/#{issue.number}|#{issue.title}>\n"
+        )
+        msg.send(message)
       else
-        msg.send("No issues! :tada:")
+        msg.send("No #{labels} issues! :tada:")
