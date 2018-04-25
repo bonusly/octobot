@@ -8,22 +8,23 @@
 #   None
 #
 # Commands:
-#   hubot lod <name> - gives back the character for the look of disapproval, optionally @name
+#   hubot robert start - start harassing robert
+#   hubot robert stop  - stop harassing robert
 #
 # Author:
-#   ajacksified
+#   joshcass
 
 module.exports = (robot) ->
   annoyIntervalId = null
 
   robot.respond /robert start/, (res) ->
     if annoyIntervalId
-      res.send "@robert"
+      res.send "@josh @joao @mark @anna @jon"
       return
 
     res.send ":joy_cat:"
     annoyIntervalId = setInterval () ->
-      res.send "@robert"
+      res.send "@josh @joao @mark @anna @jon"
     , 3000
 
   robot.respond /robert stop/, (res) ->
@@ -32,4 +33,4 @@ module.exports = (robot) ->
       clearInterval(annoyIntervalId)
       annoyIntervalId = null
     else
-      res.send "Would you like to @robert some more? :hope:"
+      res.send "Would you like to go fuck yourself some more? :hope:"
