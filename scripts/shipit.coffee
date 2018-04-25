@@ -8,10 +8,10 @@
 #   None
 #
 # Commands:
-#   hubot lod <name> - gives back the character for the look of disapproval, optionally @name
+#   hubot shipit - a beautiful arrangement of shipit parrots
 #
 # Author:
-#   ajacksified
+#   joshcass
 
 module.exports = (robot) ->
   robot.respond /shipit/i, (msg) ->

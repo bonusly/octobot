@@ -8,10 +8,11 @@
 #   None
 #
 # Commands:
-#   hubot lod <name> - gives back the character for the look of disapproval, optionally @name
+#   hubot robert start - start harassing robert
+#   hubot robert stop  - stop harassing robert
 #
 # Author:
-#   ajacksified
+#   joshcass
 
 module.exports = (robot) ->
   annoyIntervalId = null
