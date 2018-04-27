@@ -8,8 +8,8 @@
 #   None
 #
 # Commands:
-#   hubot _something_ start - start harassing robert
-#   hubot _something_ stop  - stop harassing robert
+#   hubot _something_ start - start repeating _something_
+#   hubot _something_ stop  - stop repeating _something_
 #
 # Author:
 #   joshcass
@@ -29,10 +29,10 @@ module.exports = (robot) ->
       res.send message
     , 1000
 
-  robot.respond /stop repeating/, (res) ->
+  robot.respond /stop annoying/, (res) ->
     if annoyIntervalId
       res.send ":sad_cowboy:"
       clearInterval(annoyIntervalId)
       annoyIntervalId = null
     else
-      res.send "Would you like to @robert some more? :hope:"
+      res.send "If you'd like to @robert type `@octobot start @robert`"
