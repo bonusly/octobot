@@ -17,7 +17,7 @@
 module.exports = (robot) ->
   annoyIntervalId = null
 
-  robot.respond /start\s?(.*)/, (res) ->
+  robot.respond /start\s?(.*)/i, (res) ->
     message = res.match[1].trim()
 
     if annoyIntervalId
@@ -29,7 +29,7 @@ module.exports = (robot) ->
       res.send message
     , 1000
 
-  robot.respond /stop annoying/, (res) ->
+  robot.respond /stop annoying/i, (res) ->
     if annoyIntervalId
       res.send ":sad_cowboy:"
       clearInterval(annoyIntervalId)
