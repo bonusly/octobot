@@ -1,11 +1,13 @@
 # Description:
 #   Show pull requests that need approval
 # Commands:
-#   hubot thumbs -- Shows all pull requests awaiting approval.
+#   hubot thumbs -- Shows all pull requests awaiting approval for Recognize
+#   hubot ears   -- Shows all pull requests awaiting approval for Listen
+
 _  = require("underscore")
 ta = require("time-ago")()
 
-ASK_REGEX = /thumbs*/i
+ASK_REGEX = /thumbs*|ears*/i
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
@@ -14,7 +16,10 @@ module.exports = (robot) ->
     query_params = state: "open", sort: "created"
     query_params.per_page=100
     base_url = process.env.HUBOT_GITHUB_API
-    repo = process.env.HUBOT_GITHUB_REPO
+    if msg.message.text.match(/thumbs*/)
+      repo = process.env.HUBOT_GITHUB_REPO
+    else
+      repo = process.env.HUBOT_LISTEN_REPO
 
     github.get "#{base_url}/repos/#{repo}/pulls", query_params, (pulls) ->
       if pulls.length
