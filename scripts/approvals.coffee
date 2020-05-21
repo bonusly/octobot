@@ -7,20 +7,20 @@
 _  = require("underscore")
 ta = require("time-ago")()
 
-ASK_REGEX = /thumbs*|ears*/i
+REPOS = {
+    recognize: "HUBOT_GITHUB_REPO",
+    listen: "HUBOT_LISTEN_REPO"
+   }
+
+ASK_REGEX = /thumbs*|ears*|prs*/i
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
+  query_params = state: "open", sort: "created"
+  query_params.per_page=100
+  base_url = process.env.HUBOT_GITHUB_API
 
-  robot.respond ASK_REGEX, (msg) ->
-    query_params = state: "open", sort: "created"
-    query_params.per_page=100
-    base_url = process.env.HUBOT_GITHUB_API
-    if msg.message.text.match(/thumbs*/)
-      repo = process.env.HUBOT_GITHUB_REPO
-    else
-      repo = process.env.HUBOT_LISTEN_REPO
-
+  getPulls = (repo) ->
     github.get "#{base_url}/repos/#{repo}/pulls", query_params, (pulls) ->
       if pulls.length
         notReadyCount = 0
@@ -56,6 +56,15 @@ module.exports = (robot) ->
                   else
                     approvedCount += 1
                     msg.send "No pull requests need review! :tada:" if (notReadyCount + approvedCount) == pulls.length
-        )
+      )
       else
-        msg.send "No pull requests open! :tada:"
+        msg.send "no pull requests open! :tada:"
+
+  robot.respond ASK_REGEX, (msg) ->
+   if msg.message.text.match(/prs*/)
+      _.each(_.values(REPOS), (repo) =>
+        getPulls(process.env[repo]))
+    else if msg.message.text.match(/thumbs*/)
+      getPulls(process.env[REPOS.recognize])
+    else
+      getPulls(process.env[REPOS.listen])
