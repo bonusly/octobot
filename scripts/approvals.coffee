@@ -7,9 +7,9 @@
 _  = require("underscore")
 ta = require("time-ago")()
 
-REPOS = {
-    recognize: "HUBOT_GITHUB_REPO",
-    listen: "HUBOT_LISTEN_REPO"
+CMDS = {
+    thumbs: { project: "recognize", env: "HUBOT_GITHUB_REPO" },
+    ears: { project: "listen", env: "HUBOT_LISTEN_REPO" }
    }
 
 ASK_REGEX = /thumbs*|ears*|prs*/i
@@ -20,7 +20,8 @@ module.exports = (robot) ->
   query_params.per_page=100
   base_url = process.env.HUBOT_GITHUB_API
 
-  getPulls = (repo) ->
+  getPulls = (cmd, msg) ->
+    repo = process.env[cmd.env]
     github.get "#{base_url}/repos/#{repo}/pulls", query_params, (pulls) ->
       if pulls.length
         notReadyCount = 0
@@ -45,26 +46,27 @@ module.exports = (robot) ->
                   if approvalsNeeded
                     requestedReviewers = _.map(pull.requested_reviewers, (reviewer) ->
                       reviewer.login).join(', ')
+                    header = "*_PRs for #{cmd.project}_*"
                     baseMessage = """
-                      *<#{pull.html_url}|#{pull.title}> Size: #{printSize}*
+                      \n*<#{pull.html_url}|#{pull.title}> Size: #{printSize}*
                       \nSubmitted by #{pull.user.login} _#{ta.ago(pull.created_at)}_
                       \nNeeds #{approvalsNeeded} more
                     """
                     requestMessage = "\nReview requested from #{requestedReviewers}"
                     message = if requestedReviewers then baseMessage.concat(requestMessage) else baseMessage
-                    msg.send message
+                    msg.send header.concat(message)
                   else
                     approvedCount += 1
-                    msg.send "No pull requests need review! :tada:" if (notReadyCount + approvedCount) == pulls.length
+                    msg.send "No pull requests for #{cmd.project} need review! :tada:" if (notReadyCount + approvedCount) == pulls.length
       )
       else
-        msg.send "no pull requests open! :tada:"
+        msg.send "no pull requests open for #{cmd.project}! :tada:"
 
   robot.respond ASK_REGEX, (msg) ->
    if msg.message.text.match(/prs*/)
-      _.each(_.values(REPOS), (repo) =>
-        getPulls(process.env[repo]))
+      _.each(_.values(CMDS), (cmd) =>
+        getPulls(cmd, msg))
     else if msg.message.text.match(/thumbs*/)
-      getPulls(process.env[REPOS.recognize])
+      getPulls(CMDS.thumbs, msg)
     else
-      getPulls(process.env[REPOS.listen])
+      getPulls(CMDS.ears, msg)
