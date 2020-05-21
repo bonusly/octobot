@@ -56,7 +56,7 @@ module.exports = (robot) ->
                     msg.send message
                   else
                     approvedCount += 1
-                    msg.send "No pull requests for *#{cmd.project}* need review! :tada:" if (notReadyCount + approvedCount) == pulls.length
+          msg.send "No pull requests for *#{cmd.project}* need review! :tada:" if (notReadyCount + approvedCount) == pulls.length
       )
       else
         msg.send "no pull requests open for *#{cmd.project}*! :tada:"
