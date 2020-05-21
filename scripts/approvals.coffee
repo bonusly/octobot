@@ -3,6 +3,7 @@
 # Commands:
 #   hubot thumbs -- Shows all pull requests awaiting approval for Recognize
 #   hubot ears   -- Shows all pull requests awaiting approval for Listen
+#   hubot prs    -- Shows all pull requests awaiting approval for both products
 
 _  = require("underscore")
 ta = require("time-ago")()
