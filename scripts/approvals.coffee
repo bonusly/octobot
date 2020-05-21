@@ -46,21 +46,20 @@ module.exports = (robot) ->
                   if approvalsNeeded
                     requestedReviewers = _.map(pull.requested_reviewers, (reviewer) ->
                       reviewer.login).join(', ')
-                    header = "*_PRs for #{cmd.project}_*"
                     baseMessage = """
-                      \n*<#{pull.html_url}|#{pull.title}> Size: #{printSize}*
+                      \n*<#{pull.html_url}|#{pull.title}> Size: #{printSize} Project: #{cmd.project}*
                       \nSubmitted by #{pull.user.login} _#{ta.ago(pull.created_at)}_
                       \nNeeds #{approvalsNeeded} more
                     """
                     requestMessage = "\nReview requested from #{requestedReviewers}"
                     message = if requestedReviewers then baseMessage.concat(requestMessage) else baseMessage
-                    msg.send header.concat(message)
+                    msg.send message
                   else
                     approvedCount += 1
-                    msg.send "No pull requests for #{cmd.project} need review! :tada:" if (notReadyCount + approvedCount) == pulls.length
+                    msg.send "No pull requests for *#{cmd.project}* need review! :tada:" if (notReadyCount + approvedCount) == pulls.length
       )
       else
-        msg.send "no pull requests open for #{cmd.project}! :tada:"
+        msg.send "no pull requests open for *#{cmd.project}*! :tada:"
 
   robot.respond ASK_REGEX, (msg) ->
    if msg.message.text.match(/prs*/)
