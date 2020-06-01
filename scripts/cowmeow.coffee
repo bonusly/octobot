@@ -24,7 +24,7 @@ module.exports = (robot) ->
                 .http("http://cowsay.morecode.org/say")
                 .query(format: 'text', message: response.fact)
                 .get() (err, res, body) ->
-                  msg.send body
+                  msg.send "```#{body}```"
 
             else
               msg.send "Unable to get cat facts right now."
