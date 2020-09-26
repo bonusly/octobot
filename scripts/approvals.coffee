@@ -10,7 +10,7 @@ ta = require("time-ago")()
 
 CMDS = {
     thumbs: { project: "recognize", env: "HUBOT_GITHUB_REPO" },
-    ears: { project: "listen", env: "HUBOT_LISTEN_REPO" }
+    ears: { project: "signals", env: "HUBOT_LISTEN_REPO" }
    }
 
 ASK_REGEX = /thumbs*|ears*|prs*/i
