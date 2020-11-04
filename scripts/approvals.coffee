@@ -30,7 +30,7 @@ module.exports = (robot) ->
         _.each(pulls, (pull) ->
           github.get "#{pull.issue_url}", (issue) ->
             notReadyForReview = _.any(issue.labels, (label) ->
-              label.name.includes('not-ready-for-review')) || label.name.includes('example')
+              label.name.includes('not-ready-for-review') || label.name.includes('example'))
 
             notReadyCount += 1 if notReadyForReview
 
