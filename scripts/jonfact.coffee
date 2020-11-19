@@ -15,7 +15,7 @@
 
 module.exports = (robot) ->
   robot.respond /JONFACT/i, (msg) ->
-    msg.http('http://lenny.today/api/v1/random')
+    msg.http('http://api.lenny.today/v1/random')
       .get() (error, response, body) ->
         response = JSON.parse(body)
         face     = response[0].face
