@@ -10,10 +10,11 @@ ta = require("time-ago")()
 
 CMDS = {
     thumbs: { project: "recognize", env: "HUBOT_GITHUB_REPO" },
-    ears: { project: "signals", env: "HUBOT_LISTEN_REPO" }
+    ears: { project: "signals", env: "HUBOT_LISTEN_REPO" },
+    dashboards: { project: "digital signage", env: "HUBOT_DASHBOARD_REPO" }
    }
 
-ASK_REGEX = /thumbs*|ears*|prs*/i
+ASK_REGEX = /thumbs*|ears*|prs*|dashboards*/i
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
@@ -68,5 +69,7 @@ module.exports = (robot) ->
         getPulls(cmd, msg))
     else if msg.message.text.match(/thumbs*/)
       getPulls(CMDS.thumbs, msg)
+    else if msg.message.text.match(/dashboards*/)
+      getPulls(CMDS.dashboards, msg)
     else
       getPulls(CMDS.ears, msg)
