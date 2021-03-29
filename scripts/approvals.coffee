@@ -11,7 +11,8 @@ ta = require("time-ago")()
 CMDS = {
     thumbs: { project: "recognize", env: "HUBOT_GITHUB_REPO" },
     ears: { project: "signals", env: "HUBOT_LISTEN_REPO" },
-    dashboards: { project: "digital signage", env: "HUBOT_DASHBOARD_REPO" }
+    dashboards: { project: "digital signage", env: "HUBOT_DASHBOARD_REPO" },
+    users: { project: "user sauce", env: "HUBOT_USERS_REPO" },
    }
 
 ASK_REGEX = /thumbs*|ears*|prs*|dashboards*/i
@@ -71,5 +72,7 @@ module.exports = (robot) ->
       getPulls(CMDS.thumbs, msg)
     else if msg.message.text.match(/dashboards*/)
       getPulls(CMDS.dashboards, msg)
+    else if msg.message.text.match(/users*/)
+      getPulls(CMDS.users, msg)
     else
       getPulls(CMDS.ears, msg)
