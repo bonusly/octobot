@@ -16,6 +16,8 @@
 
 module.exports = (robot) ->
   annoyIntervalId = null
+  maxDuration = 30_000 # 30 seconds
+  startTime = Date.now()
 
   robot.respond /start\s?(.*)/i, (res) ->
     message = res.match[1].trim()
@@ -26,6 +28,10 @@ module.exports = (robot) ->
 
     res.send ":joy_cat:"
     annoyIntervalId = setInterval () ->
+      if (startTime + maxDuration) < Date.now()
+        res.send "ಠ_ಠ"
+        return
+
       res.send message
     , 1000
 
