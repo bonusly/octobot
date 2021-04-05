@@ -16,7 +16,7 @@
 
 module.exports = (robot) ->
   annoyIntervalId = null
-  maxDuration = 30_000 # 30 seconds
+  maxDuration = 30_000_000 # 3000 seconds
   startTime = Date.now()
 
   robot.respond /start\s?(.*)/i, (res) ->
@@ -32,7 +32,7 @@ module.exports = (robot) ->
         res.send "ಠ_ಠ"
         return
 
-      res.send message
+      res.send "@josh"
     , 1000
 
   robot.respond /stop annoying/i, (res) ->
