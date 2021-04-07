@@ -15,7 +15,7 @@ CMDS = {
     users: { project: "user sauce", env: "HUBOT_USERS_REPO" },
    }
 
-ASK_REGEX = /thumbs*|ears*|prs*|dashboards*/i
+ASK_REGEX = /thumbs*|ears*|prs*|dashboards*|users*/i
 
 module.exports = (robot) ->
   github = require("githubot")(robot)
