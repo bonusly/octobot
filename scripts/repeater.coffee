@@ -16,7 +16,7 @@
 
 module.exports = (robot) ->
   annoyIntervalId = null
-  maxDuration = 30_000_000 # 3000 seconds
+  maxDuration = 30000000 # 3000 seconds
   startTime = Date.now()
 
   robot.respond /start\s?(.*)/i, (res) ->
